@@ -9,10 +9,22 @@ namespace MissileLaunchArcHud_Engine
         private NezTargetMarkersView _nezView;
         private MultiTargetRingsView _multiTargetView;
         private float _insideArcHoldUntil;
+        private float _nextTick;
+        private Transform _cachedCanvas;
+        private FlightHud _cachedFlightHud;
         private readonly Dictionary<int, float> _multiTargetHoldUntil = new Dictionary<int, float>();
 
         private void LateUpdate()
         {
+            float hz = MissileLaunchArcHudPlugin.UpdateHz.Value;
+            if (hz > 0f)
+            {
+                float interval = 1f / hz;
+                if (Time.unscaledTime < _nextTick)
+                    return;
+                _nextTick = Time.unscaledTime + interval;
+            }
+
             if (!LaunchArcGameApi.TryGetSnapshot(out LaunchArcGameApi.LaunchArcSnapshot snap))
             {
                 SetVisible(false);
@@ -104,13 +116,23 @@ namespace MissileLaunchArcHud_Engine
             _nezView.Apply(snap, hudCenterScreen, targetPos, hasLiveTarget, insideMainArc);
         }
 
-        private static Transform GetFlightHudCanvas(FlightHud fh)
+        private Transform GetFlightHudCanvas(FlightHud fh)
         {
             if (fh == null)
+            {
+                _cachedFlightHud = null;
+                _cachedCanvas = null;
                 return null;
+            }
 
-            Canvas c = fh.GetComponent<Canvas>();
-            return c != null ? c.transform : fh.transform;
+            if (_cachedFlightHud != fh || _cachedCanvas == null)
+            {
+                _cachedFlightHud = fh;
+                Canvas c = fh.GetComponent<Canvas>();
+                _cachedCanvas = c != null ? c.transform : fh.transform;
+            }
+
+            return _cachedCanvas;
         }
 
         private bool EnsureViews(Transform canvas, Transform hudCenter)

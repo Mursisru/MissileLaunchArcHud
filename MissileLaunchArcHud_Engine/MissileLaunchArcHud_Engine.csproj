@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="AppVersion.cs" />
     <Compile Include="MissileLaunchArcHudPlugin.cs" />
+    <Compile Include="LaunchArcVanillaRangeSync.cs" />
     <Compile Include="LaunchArcGameApi.cs" />
     <Compile Include="LaunchArcHudController.cs" />
     <Compile Include="LaunchArcCircleView.cs" />

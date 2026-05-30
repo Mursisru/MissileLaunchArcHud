@@ -7,21 +7,22 @@ namespace MissileLaunchArcHud_Engine
     internal static class AppVersion
     {
         /// <summary>Target semver for the next GitHub release (fixed during DEV / PR-R).</summary>
-        public const string ReleaseBase = "1.3.0";
+        public const string ReleaseBase = "1.3.1";
 
         /// <summary>Semver only — required by BepInEx [BepInPlugin]; dev string breaks plugin load.</summary>
-        public const string BepInSemVer = ReleaseBase;
+        public const string BepInSemVer = "1.3.1";
 
-        /// <summary>DEV in Engine; PR-R in Desktop\GITHUB local mirror after robocopy.</summary>
+        /// <summary>DEV in Engine; set PR-R in Desktop\GITHUB local mirror after robocopy.</summary>
         public const string VersionChannel = "PR-R";
 
         public const int CycleBuildNumber = 2;
 
-        /// <summary>Program / pre-release iteration.</summary>
+        /// <summary>Program iteration after GitHub local sync.</summary>
         public const string ChangeLetters = "P";
 
-        public const int SubNumber = 1;
+        public const int SubNumber = 2;
 
-        public const string DisplayVersion = "1.3.0 Build PR-R2P1";
+        public const string DisplayVersion = "1.3.0 Build DEV2P2";
     }
 }
+

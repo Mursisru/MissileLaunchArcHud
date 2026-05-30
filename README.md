@@ -1,16 +1,8 @@
 # Missile Launch Arc HUD
 
-BepInEx 5 plugin for **Nuclear Option**: launch-arc circle on the **Flight HUD** for **non-laser** missiles with **target lock**, matching vanilla **OUT OF ARC** (`TargetRequirements.minAlignment`).
-
-**Pre-release:** `1.3.0 Build PR-R2P1` · BepInEx semver **1.3.0** · last GitHub release **1.2.0**
+BepInEx 5 plugin for **Nuclear Option**: draws a **launch arc** circle on the **Flight HUD** for **non-laser** missiles when you have a **target lock**, matching the game's **OUT OF ARC** limit (`TargetRequirements.minAlignment`).
 
 Laser-guided weapons (**AGR-18 / AGR-24**) are skipped — vanilla already draws the dynamic arc circle.
-
-## Features (1.3.0)
-
-- **Main arc** — OUT OF ARC limit ring, styled like Flight HUD missile lines (color / alpha / resolution scaling).
-- **NEZ (single target)** — approaching ring (calm HUD green) and inner/outer pair inside no-escape zone (red blink when in arc).
-- **Multi-target** — with **2+** locked targets, one calm ring on **each** target that is within launch arc and inside the main arc on screen.
 
 ## Install
 
@@ -31,19 +23,16 @@ Laser-guided weapons (**AGR-18 / AGR-24**) are skipped — vanilla already draws
 | `Enabled` | true | Master toggle |
 | `RequireTargetLock` | true | Needs known target position |
 | `HideForLaserGuided` | true | No duplicate circle on laser rockets |
-| `NezMarkersEnabled` | true | NEZ rings on target (single-target mode) |
-| `NezApproachBandMeters` | 2000 | Distance band before NEZ for “approaching” |
-| `NezInnerRingSizePx` / `NezApproachRingSizePx` | Reference @ **1080p**; auto-scaled |
-| `TargetRingInsideArcHoldSeconds` | 0.35 | Screen gate hold when target crosses main arc edge |
-| `MatchFlightHudStyle` | true | Sample live HUD missile line color/alpha |
-| `ArcRadiusScale` | 1 | Main arc radius multiplier |
+| `UseDynamicArcFormula` | false | false = `minAlignment` (HUDMissileState); true = laser-style `Min(minAlignment, dist*0.002)` |
+| `DimWhenOutOfArc` | true | Fade ring when aim exceeds arc |
+| `ColorHtml` | `#59D9FF8C` | Ring color |
+| `UpdateHz` | 0 | 0 = every frame |
 
-See `BepInEx\config\com.at747.missilelauncharchud.cfg` after first run for the full list.
+| `NezApproachRingSizePx` / `NezInnerRingSizePx` | Reference size at **1080p height**; auto-scaled to current resolution |
 
 ## Game logic reference
 
 - Arc check: `HUDMissileState` — `maxTargetAngle > minAlignment` → **OUT OF ARC**
-- NEZ ranges: `Missile.CalcRange` / `HUDMissileState.CalcWeaponRange`
-- Circle scale (laser template): `50f / FOV * (arcDeg / 8f)`
+- Circle scale (laser): `HUDLaserGuidedState` — `50f / FOV * (arcDeg / 8f)` on `outerCircle`
 
 MIT License — see [LICENSE](LICENSE).

@@ -130,7 +130,7 @@ namespace MissileLaunchArcHud_Engine
                 combatHud, primaryTarget, cam, out _);
 
             float distForNez = maxTargetDist;
-            if (TrySyncRangesFromVanillaMissileHud(out float vanillaDist))
+            if (LaunchArcVanillaRangeSync.TrySync(ref _cachedMaxRange, ref _cachedNoEscapeRange, out float vanillaDist))
                 distForNez = vanillaDist;
 
             LaunchArcNezPhase nezPhase = LaunchArcNezPhase.Calm;
@@ -253,24 +253,6 @@ namespace MissileLaunchArcHud_Engine
                 out _cachedNoEscapeRange);
         }
 
-        private static bool TrySyncRangesFromVanillaMissileHud(out float maxTargetDist)
-        {
-            maxTargetDist = 0f;
-            CombatHUD combatHud = SceneSingleton<CombatHUD>.i;
-            if (combatHud == null)
-                return false;
-
-            var weaponState = AccessTools.Field(typeof(CombatHUD), "weaponState").GetValue(combatHud) as HUDWeaponState;
-            var missileHud = weaponState as HUDMissileState;
-            if (missileHud == null)
-                return false;
-
-            _cachedMaxRange = (float)AccessTools.Field(typeof(HUDMissileState), "maxRange").GetValue(missileHud);
-            _cachedNoEscapeRange = (float)AccessTools.Field(typeof(HUDMissileState), "noEscapeRange").GetValue(missileHud);
-            maxTargetDist = (float)AccessTools.Field(typeof(HUDMissileState), "maxTargetDist").GetValue(missileHud);
-            return _cachedMaxRange > 1f;
-        }
-
         private static bool IsNezMeaningful()
         {
             return _cachedNoEscapeRange > 0f && _cachedNoEscapeRange < _cachedMaxRange * 0.9f;
@@ -303,6 +285,7 @@ namespace MissileLaunchArcHud_Engine
             _lastRangeCalcTime = -999f;
             _cachedMaxRange = 0f;
             _cachedNoEscapeRange = 0f;
+            LaunchArcVanillaRangeSync.Reset();
         }
     }
 }
