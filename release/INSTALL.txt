@@ -1,0 +1,6 @@
+Missile Launch Arc HUD
+
+1. Install BepInEx 5 for Nuclear Option (if not already).
+2. Copy MissileLaunchArcHud_Engine.dll into:
+   Nuclear Option\BepInEx\plugins\
+3. Launch the game once; edit BepInEx\config\com.at747.missilelauncharchud.cfg as needed.
