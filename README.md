@@ -10,6 +10,16 @@ BepInEx 5 plugin for **Nuclear Option**: draws a **launch arc** circle on the **
 
 Laser-guided weapons (**AGR-18 / AGR-24**) are skipped — vanilla already draws the dynamic arc circle.
 
+---
+
+## Critical warnings
+
+> [!IMPORTANT]
+> **BepInEx 5 (x64) required** - install [BepInEx](https://docs.bepinex.dev/articles/user_guide/installation/index.html) before this mod.
+
+> [!NOTE]
+> **Laser-guided weapons skipped** - AGR-18/AGR-24 use vanilla dynamic arc; this mod draws arc for non-laser missiles at `minAlignment`.
+
 ## Install
 
 > [!IMPORTANT]
